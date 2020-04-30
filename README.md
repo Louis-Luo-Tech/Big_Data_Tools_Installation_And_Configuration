@@ -8,7 +8,7 @@ Table of Contents
 * [Hadoop](#Hadoop)
     * [Examples: Runnable Applications](#examples-apps)
 * [Spark](#Spark)
-    * [Why Spark](#Why Spark)
+    * [Why Spark](#Why-Spark)
 * [Hive](#Hive)
 * [Hbase](#Hbase)
 * [Flume](#Flume)
