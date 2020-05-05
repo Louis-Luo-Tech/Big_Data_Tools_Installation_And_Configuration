@@ -26,6 +26,9 @@ Table of Contents
 
 # Hadoop
 ## What is Hadoop
+
+fdg
+
 ## What is MapReduce
 ## How to install Hadoop
 
