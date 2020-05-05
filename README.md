@@ -12,7 +12,9 @@ Table of Contents
 * [Yarn](#Yarn)
     * [What is Yarn](#What-is-Yarn)   
 * [Spark](#Spark)
+    * [What is Spark](#What-is-Spark)
     * [Why Spark](#Why-Spark)
+    * [How to install Spark](#How-to-install-Spark)
 * [Hive](#Hive)
 * [Hbase](#Hbase)
 * [Flume](#Flume)
@@ -29,8 +31,9 @@ Table of Contents
 ## What is Yarn
 
 # Spark
-
+## What is Spark
 ## Why Spark
+## How to install Spark
 
 # Hive
 
