@@ -17,7 +17,9 @@ Table of Contents
 
 
 # Hadoop
-
+## What is Hadoop
+## What is MapReduce
+## How to install Hadoop
 
 # Spark
 
