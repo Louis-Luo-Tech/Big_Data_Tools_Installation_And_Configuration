@@ -6,7 +6,9 @@ The description of big data tools installation and configuration
 Table of Contents
 
 * [Hadoop](#Hadoop)
-    * [Examples: Runnable Applications](#examples-apps)
+    * [What is Hadoop](#What-is-Hadoop)
+    * [What is MapReduce](#What-is-MapReduce)
+    * [How to install Hadoop](#How-to-install-Hadoop)
 * [Spark](#Spark)
     * [Why Spark](#Why-Spark)
 * [Hive](#Hive)
