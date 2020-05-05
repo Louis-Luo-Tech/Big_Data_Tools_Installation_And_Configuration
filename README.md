@@ -7,13 +7,6 @@ Table of Contents
 
 * [Hadoop](#Hadoop)
     * [What is Hadoop](#What-is-Hadoop)
-    
-    
-    fdgfdgdfgf
-    gdfgfd
-    
-    
-    
     * [What is MapReduce](#What-is-MapReduce)
     * [How to install Hadoop](#How-to-install-Hadoop)
 * [Yarn](#Yarn)
@@ -26,6 +19,8 @@ Table of Contents
 * [Hbase](#Hbase)
 * [Flume](#Flume)
 * [Kafka](#Kafka)
+* [Sqoop](#Sqoop)
+    * [What is Sqoop](#What-is-Sqoop)
 * [Zookeeper](#Zookeeper)
 
 
@@ -51,5 +46,8 @@ Table of Contents
 # Flink
 
 # Kafka
+
+# Sqoop
+# What is Sqoop
 
 # Zookeeper
