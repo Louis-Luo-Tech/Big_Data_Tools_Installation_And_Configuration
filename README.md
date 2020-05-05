@@ -9,6 +9,8 @@ Table of Contents
     * [What is Hadoop](#What-is-Hadoop)
     * [What is MapReduce](#What-is-MapReduce)
     * [How to install Hadoop](#How-to-install-Hadoop)
+* [Yarn](#Yarn)
+    * [What is Yarn](#What-is-Yarn)   
 * [Spark](#Spark)
     * [Why Spark](#Why-Spark)
 * [Hive](#Hive)
@@ -22,6 +24,9 @@ Table of Contents
 ## What is Hadoop
 ## What is MapReduce
 ## How to install Hadoop
+
+# Yarn
+## What is Yarn
 
 # Spark
 
