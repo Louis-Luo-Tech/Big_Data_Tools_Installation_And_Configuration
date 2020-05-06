@@ -377,9 +377,73 @@ run the schematool so that hive will use mysql
 ```
 ./schematool -initSchema -dbType mysql 
 ```
+
+## Step 4 Start Hive
+
 ```
 $hive
 hive > show tables;
+```
+
+## Step 5 Verify Hive Installation
+
+```
+hive> show databases;
+OK
+default
+Time taken: 3.516 seconds, Fetched: 1 row(s)
+hive> use default;
+OK
+Time taken: 0.024 seconds
+hive> show tables;
+OK
+Time taken: 0.044 seconds
+hive> create table pk(id int, name string) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+OK
+Time taken: 0.785 seconds
+hive> show tables;
+OK
+pk
+Time taken: 0.037 seconds, Fetched: 1 row(s)
+hive> select * from pk;
+OK
+Time taken: 1.104 seconds
+hive> load data local inpath '/Users/xiangluo/data/names.txt' overwrite into table default.pk;
+Loading data to table default.pk
+OK
+Time taken: 0.714 seconds
+hive> select * from pk;
+OK
+1	zhangsan
+2	lisi
+3	Louis
+Time taken: 0.102 seconds, Fetched: 3 row(s)
+hive> select count(*) from pk;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = xiangluo_20200506042554_a0d8a976-8101-4c72-92bc-cec6b3ba180f
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1588757981006_0003, Tracking URL = http://localhost:8088/proxy/application_1588757981006_0003/
+Kill Command = /Users/xiangluo/app/hadoop-2.7.7/bin/hadoop job  -kill job_1588757981006_0003
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2020-05-06 04:26:01,181 Stage-1 map = 0%,  reduce = 0%
+2020-05-06 04:26:06,377 Stage-1 map = 100%,  reduce = 0%
+2020-05-06 04:26:11,533 Stage-1 map = 100%,  reduce = 100%
+Ended Job = job_1588757981006_0003
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   HDFS Read: 7588 HDFS Write: 101 SUCCESS
+Total MapReduce CPU Time Spent: 0 msec
+OK
+3
+Time taken: 17.969 seconds, Fetched: 1 row(s)
+hive> 
 ```
 
 # Hbase
