@@ -20,6 +20,7 @@ Table of Contents
     * [How to install Spark](#How-to-install-Spark)
 * [Hive](#Hive)
     * [What is Hive](#What-is-Hive)
+    * [How to install Hive](#How-to-install-Hive)
 * [Hbase](#Hbase)
 * [Flume](#Flume)
 * [Kafka](#Kafka)
@@ -309,6 +310,77 @@ Apache Spark is an open-source distributed cluster-computing framework. Spark i
 # What is Hive
 
 Apache Hive is an open source data warehouse software for reading, writing and managing large data set files that are stored directly in either the Apache Hadoop Distributed File System (HDFS) or other data storage systems such as Apache HBase. Hive enables SQL developers to write Hive Query Language (HQL) statements that are similar to standard SQL statements for data query and analysis.  It is designed to make MapReduce programming easier because you don’t have to know and write lengthy Java code. Instead, you can write queries more simply in HQL, and Hive can then create the map and reduce the functions.
+
+# How to install Hive
+
+## Step 1 Install Mysql
+
+## Step 2 Download JDBC driver
+
+Platform independent (v8.0.19 is used here)
+
+Copy the JDBC driver to hive lib folder
+
+## Step 3 Configurate Hive
+
+```
+$ cp hive-default.xml.template hive-site.xml
+```
+
+Make some changes in hive-site.xml
+```
+<property>
+  <name>javax.jdo.option.ConnectionURL</name>
+  <value>jdbc:mysql://localhost/metastore?serverTimezone=PST</value>
+</property>
+<property>
+  <name>javax.jdo.option.ConnectionDriverName</name>
+  <value>com.mysql.cj.jdbc.Driver</value>
+</property>
+<property>
+  <name>javax.jdo.option.ConnectionUserName</name>
+  <value>hiveuser</value>
+</property>
+<property>
+  <name>javax.jdo.option.ConnectionPassword</name>
+  <value>12345678</value>
+</property>
+<property>
+    <name>hive.exec.local.scratchdir</name>
+    <value>/Users/xiangluo/hadoop2_data/hive</value>
+    <description>Local scratch space for Hive jobs</description>
+</property>
+<property>
+    <name>hive.downloaded.resources.dir</name>
+    <value>/Users/xiangluo/hadoop2_data/hive</value>
+    <description>Temporary local directory for added resources in the remote file system.</description>
+</property>
+<property>
+    <name>hive.querylog.location</name>
+    <value>/Users/xiangluo/hadoop2_data/hive<value>
+    <description>Location of Hive run time structured log file</description>
+</property>
+```
+
+start My sql with below command:
+```
+$ mysql -uroot -p12345678
+
+$ mysql
+mysql> CREATE DATABASE metastore;
+mysql> USE metastore;
+mysql> CREATE USER 'hiveuser'@'localhost' IDENTIFIED BY 'password';
+mysql> GRANT SELECT,INSERT,UPDATE,DELETE,ALTER,CREATE, REFERENCES, INDEX ON metastore.* TO 'hiveuser'@'localhost';
+```
+
+run the schematool so that hive will use mysql
+```
+./schematool -initSchema -dbType mysql 
+```
+```
+$hive
+hive > show tables;
+```
 
 # Hbase
 
