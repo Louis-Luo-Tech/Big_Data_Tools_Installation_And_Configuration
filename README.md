@@ -446,6 +446,8 @@ Time taken: 17.969 seconds, Fetched: 1 row(s)
 hive> 
 ```
 
+Metastore is the central repository of Apache Hive metadata. It stores metadata for Hive tables (like their schema and location) and partitions in a relational database. It provides client access to this information by using metastore service API.
+
 # Hbase
 
 # Flume
