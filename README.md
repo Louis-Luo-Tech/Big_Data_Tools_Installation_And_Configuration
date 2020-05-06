@@ -134,6 +134,23 @@ Pseudo-distributed Mode on Mac OS
 
 Version 2.7 and later of Apache Hadoop requires Java 7 or higher.
 
+### Step 1 Install Java
+
+### Step 2 Configure SSH
+
+The SSH protocol (also referred to as Secure Shell) is a method for secure remote login from one computer to another. It provides several alternative options for strong authentication, and it protects the communications security and integrity with strong encryption.
+
+If you cannot ssh to localhost without a passphrase, execute the following commands:
+
+```
+  $ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+  $ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+  $ chmod 0600 ~/.ssh/authorized_keys
+```
+
+### Step 3 Install Hadoop
+
+### Step 4 Configure Hadoop
 
 
 # Yarn
