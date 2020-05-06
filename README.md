@@ -74,47 +74,67 @@ HDFS has a master/slave architecture. An HDFS cluster consists of a single NameN
 ## Different Hadoop Modes
 
 1. Local Mode or Standalone Mode
+
 Standalone mode is the default mode in which Hadoop run. Standalone mode is mainly used for debugging where you don’t really use HDFS.
+
 You can use input and output both as a local file system in standalone mode.
 
 You also don’t need to do any custom configuration in the files- mapred-site.xml, core-site.xml, hdfs-site.xml.
 
-Standalone mode is usually the fastest Hadoop modes as it uses the local file system for all the input and output. Here is the summarized view of the standalone mode-
+Standalone mode is usually the fastest Hadoop modes as it uses the local file system for all the input and output. Here is the summarized view of the standalone mode
 
 • Used for debugging purpose
+
 • HDFS is not being used
+
 • Uses local file system for input and output
+
 • No need to change any configuration files
+
 • Default Hadoop Modes
 
 2. Pseudo-distributed Mode
+
 The pseudo-distribute mode is also known as a single-node cluster where both NameNode and DataNode will reside on the same machine.
 
 In pseudo-distributed mode, all the Hadoop daemons will be running on a single node. Such configuration is mainly used while testing when we don’t need to think about the resources and other users sharing the resource.
 
 In this architecture, a separate JVM is spawned for every Hadoop components as they could communicate across network sockets, effectively producing a fully functioning and optimized mini-cluster on a single host.
 
-Here is the summarized view of pseudo distributed Mode-
+Here is the summarized view of pseudo distributed Mode
 
 • Single Node Hadoop deployment running on Hadoop is considered as pseudo distributed mode
+
 • All the master & slave daemons will be running on the same node
+
 • Mainly used for testing purpose
+
 • Replication Factor will be ONE for blocks
+
 • Changes in configuration files will be required for all the three files- mapred-site.xml, core-site.xml, hdfs-site.xml
 
 3. Fully-Distributed Mode (Multi-Node Cluster)
+
 This is the production mode of Hadoop where multiple nodes will be running. Here data will be distributed across several nodes and processing will be done on each node.
 
 Master and Slave services will be running on the separate nodes in fully-distributed Hadoop Mode.
 
 • Production phase of Hadoop
+
 • Separate nodes for master and slave daemons
+
 • Data are used and distributed across multiple nodes
 
 In the Hadoop development, each Hadoop Modes have its own benefits and drawbacks. Definitely fully distributed mode is the one for which Hadoop is mainly known for but again there is no point in engaging the resource while in testing or debugging phase. So standalone and pseudo-distributed Hadoop modes are also having their own significance.
 
 
 ## How to install Hadoop
+
+Pseudo-distributed Mode on Mac OS
+
+Version 2.7 and later of Apache Hadoop requires Java 7 or higher.
+
+
 
 # Yarn
 ## What is Yarn
