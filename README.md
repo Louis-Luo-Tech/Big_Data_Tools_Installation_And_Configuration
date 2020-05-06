@@ -9,6 +9,8 @@ Table of Contents
     * [What is Hadoop](#What-is-Hadoop)
     * [What is MapReduce](#What-is-MapReduce)
     * [What is HDFS](#What-is-HDFS)
+    * [Namenode and Datanode](#Namenode-and-Datanode)
+    * [Different Hadoop Modes](#Different-Hadoop-Modes)
     * [How to install Hadoop](#How-to-install-Hadoop)
 * [Yarn](#Yarn)
     * [What is Yarn](#What-is-Yarn)   
@@ -40,7 +42,76 @@ Hadoop MapReduce is a software framework for easily writing applications which p
 
 A MapReduce job usually splits the input data-set into independent chunks which are processed by the map tasks in a completely parallel manner. The framework sorts the outputs of the maps, which are then input to the reduce tasks. Typically both the input and the output of the job are stored in a file-system. The framework takes care of scheduling tasks, monitoring them and re-executes the failed tasks.
 
+MapReduce Process
+
+Input Splits:
+
+An input to a MapReduce job is divided into fixed-size pieces called input splits Input split is a chunk of the input that is consumed by a single map
+
+Mapping
+
+This is the very first phase in the execution of map-reduce program. In this phase data in each split is passed to a mapping function to produce output values. In our example, a job of mapping phase is to count a number of occurrences of each word from input splits (more details about input-split is given below) and prepare a list in the form of <word, frequency>
+
+Shuffling
+
+This phase consumes the output of Mapping phase. Its task is to consolidate the relevant records from Mapping phase output. In our example, the same words are clubed together along with their respective frequency.
+
+Reducing
+
+In this phase, output values from the Shuffling phase are aggregated. This phase combines values from Shuffling phase and returns a single output value. In short, this phase summarizes the complete dataset.
+
+
 ## What is HDFS
+
+HDFS is the primary data storage system used by Hadoop applications. HDFS is a block structured distributed filesystem that is designed to store petabytes of data reliably on compute clusters made out of commodity hardware. HDFS overlays on top of the existing filesystem of the compute nodes and stores files by breaking them into coarser grained blocks (for example, 128 MB).
+
+HDFS is highly fault-tolerant and is designed to be deployed on low-cost hardware. HDFS provides high throughput access to application data and is suitable for applications that have large data sets. HDFS relaxes a few POSIX requirements to enable streaming access to file system data.
+
+## Namenode and Datanode
+
+HDFS has a master/slave architecture. An HDFS cluster consists of a single NameNode, a master server that manages the file system namespace and regulates access to files by clients. In addition, there are a number of DataNodes, usually one per node in the cluster, which manage storage attached to the nodes that they run on. HDFS exposes a file system namespace and allows user data to be stored in files. Internally, a file is split into one or more blocks and these blocks are stored in a set of DataNodes. The NameNode executes file system namespace operations like opening, closing, and renaming files and directories. It also determines the mapping of blocks to DataNodes. The DataNodes are responsible for serving read and write requests from the file system’s clients. The DataNodes also perform block creation, deletion, and replication upon instruction from the NameNode.
+
+## Different Hadoop Modes
+
+1. Local Mode or Standalone Mode
+Standalone mode is the default mode in which Hadoop run. Standalone mode is mainly used for debugging where you don’t really use HDFS.
+You can use input and output both as a local file system in standalone mode.
+
+You also don’t need to do any custom configuration in the files- mapred-site.xml, core-site.xml, hdfs-site.xml.
+
+Standalone mode is usually the fastest Hadoop modes as it uses the local file system for all the input and output. Here is the summarized view of the standalone mode-
+
+• Used for debugging purpose
+• HDFS is not being used
+• Uses local file system for input and output
+• No need to change any configuration files
+• Default Hadoop Modes
+
+2. Pseudo-distributed Mode
+The pseudo-distribute mode is also known as a single-node cluster where both NameNode and DataNode will reside on the same machine.
+
+In pseudo-distributed mode, all the Hadoop daemons will be running on a single node. Such configuration is mainly used while testing when we don’t need to think about the resources and other users sharing the resource.
+
+In this architecture, a separate JVM is spawned for every Hadoop components as they could communicate across network sockets, effectively producing a fully functioning and optimized mini-cluster on a single host.
+
+Here is the summarized view of pseudo distributed Mode-
+
+• Single Node Hadoop deployment running on Hadoop is considered as pseudo distributed mode
+• All the master & slave daemons will be running on the same node
+• Mainly used for testing purpose
+• Replication Factor will be ONE for blocks
+• Changes in configuration files will be required for all the three files- mapred-site.xml, core-site.xml, hdfs-site.xml
+
+3. Fully-Distributed Mode (Multi-Node Cluster)
+This is the production mode of Hadoop where multiple nodes will be running. Here data will be distributed across several nodes and processing will be done on each node.
+
+Master and Slave services will be running on the separate nodes in fully-distributed Hadoop Mode.
+
+• Production phase of Hadoop
+• Separate nodes for master and slave daemons
+• Data are used and distributed across multiple nodes
+
+In the Hadoop development, each Hadoop Modes have its own benefits and drawbacks. Definitely fully distributed mode is the one for which Hadoop is mainly known for but again there is no point in engaging the resource while in testing or debugging phase. So standalone and pseudo-distributed Hadoop modes are also having their own significance.
 
 
 ## How to install Hadoop
