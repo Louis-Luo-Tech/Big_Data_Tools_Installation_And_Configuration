@@ -150,11 +150,152 @@ If you cannot ssh to localhost without a passphrase, execute the following comma
 
 ### Step 3 Install Hadoop
 
+unzip
+
+```
+$ tar -zxvf xxx.tar.gz
+```
+
 ### Step 4 Configure Hadoop
+
+hadoop-env.sh -> Hadoop operating environment
+
+Add Java home path
+
+core-site.xml -> Global parameters
+
+'''
+<configuration>
+      <property>
+            <name>fs.defaultFS</name>
+            <value>hdfs://localhost:9000</value> #the URL of namenode
+      </property>
+      <property>
+            <name>hadoop.tmp.dir</name>
+            <value>/Users/xiangluo/hadoop2_data/tmp</value>
+      </property>
+</configuration>
+'''
+
+hdfs-site.xml
+
+```
+<configuration>
+      <property>
+         <name>dfs.replication</name>
+         <value>1</value>
+      </property>
+      <property>
+         <name>dfs.namenode.name.dir</name> 
+         <value>/Users/xiangluo/hadoop2_data/hdfs/namenode</value>
+      </property>
+      <property>
+         <name>dfs.datanode.data.dir</name> 
+         <value>/Users/xiangluo//hadoop2_data/hdfs/datanode</value>
+      </property>
+</configuration>
+```
+Replication Factor:
+
+It is basically the number of times Hadoop framework replicate each and every Data Block. Block is replicated to provide Fault Tolerance. The default replication factor is 3 which can be configured as per the requirement; it can be changed to 2 (less than 3) or can be increased (more than 3.).
+
+yarn-site.xml
+
+```
+<configuration>
+<!-- Site specific YARN configuration properties -->
+   <property>
+      <name>yarn.nodemanager.aux-services</name>
+      <value>mapreduce_shuffle</value>
+   </property>
+   <property>
+      <name>yarn.nodemanager.aux-service.mapreduce.shuffle.class</name>
+      <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+
+</configuration>
+```
+
+mapred-site.xml
+
+```
+<configuration>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+</configuration>
+```
+### Step 5 Initialize Hadoop Cluster
+
+Format the filesystem:
+
+```
+$ bin/hdfs namenode -format
+```
+
+### Step 6 Start Hadoop Cluster
+
+Start NameNode daemon and DataNode daemon:
+
+Method 1
+```
+$ sbin/start-dfs.sh
+```
+Another way:
+```
+$ sbin/hadoop-daemon.sh start namenode
+$ sbin/hadoop-daemon.sh start datanode
+```
+
+Browse the web interface for the NameNode; by default it is available at: NameNode - http://localhost:50070/
+
+Start YARN:
+
+```
+$ sbin/start-yarn.sh
+```
+Browse the web interface for the YARM; by default it is available at http://localhost:8088/
+
+Run jps command again to verify all the running processes
+```
+jps
+```
+
+### Step 7 Verify Hadoop Installation
+
+```
+$ hadoop fs -mkdir /data
+$ hadoop fs -put hadoop-mapreduce-examples-2.7.7.jar /data
+$ hadoop jar hadoop-mapreduce-examples-2.7.7.jar pi 2 3
+
+$ hadoop fs -mkdir /data/input
+$ hadoop fs -put README.txt /data/input
+$ hadoop jar hadoop-mapreduce-examples-2.7.7.jar wordcount /data/input /data/output
+$ hadoop fs -cat /data/output/part-r-00000   
+```
 
 
 # Yarn
 ## What is Yarn
+
+YARN (Yet Another Resource Negotiator) is the resource management layer for the Apache Hadoop ecosystem.
+
+YARN has three components:
+
+Resource Manager: There is exactly one resource manager in one Hadoop Cluster. It does what its name says, managing the resources.
+
+Node Manager: Each data node has one Node Manager. Each Node Manager reports to Resource Manager.
+
+Node Manager=Your Team Lead
+
+Resource Manager=Your Manager
+
+Application Manager: It receives the tasks(known as Applications) that are submitted to the cluster and assigns it to the data nodes
+
+The code(or the Job) from the Client node has to be transferred to the Data node for processing the data. This code is the set of instructions as to what has to be inferred from the data.
+
+This code is first submitted to the AM by the Client Node. The AM requests the RM present in the Name Node for resources to be allotted. The RM in turn contacts the NM in each Data Node that is assigned for this job.
 
 # Spark
 ## What is Spark
