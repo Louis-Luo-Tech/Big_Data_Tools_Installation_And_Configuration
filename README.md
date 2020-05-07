@@ -17,6 +17,7 @@ Table of Contents
 * [Spark](#Spark)
     * [What is Spark](#What-is-Spark)
     * [Why Spark](#Why-Spark)
+    * [How a Spark Application Runs on a Cluster](#How-a-Spark-Application-Runs-on-a-Cluster)
     * [How to install Spark](#How-to-install-Spark)
 * [Hive](#Hive)
     * [What is Hive](#What-is-Hive)
@@ -304,7 +305,37 @@ This code is first submitted to the AM by the Client Node. The AM requests the R
 Apache Spark is an open-source distributed cluster-computing framework. Spark is a data processing engine developed to provide faster and easy-to-use analytics than Hadoop MapReduce. Before Apache Software Foundation took possession of Spark, it was under the control of University of California, Berkeley’s AMP Lab.
 
 ## Why Spark
+
+Apache Spark — it’s a lightning-fast cluster computing tool. 
+
+Spark runs applications up to 100x faster in memory and 10x faster on disk than Hadoop by reducing the number of read-write cycles to disk and storing intermediate data in-memory.
+
+Hadoop MapReduce — MapReduce reads and writes from disk, which slows down the processing speed and overall efficiency.
+
+## How a Spark Application Runs on a Cluster
+The diagram below shows a Spark application running on a cluster.
+
+A Spark application runs as independent processes, coordinated by the SparkSession object in the driver program.
+The resource or cluster manager assigns tasks to workers, one task per partition.
+A task applies its unit of work to the dataset in its partition and outputs a new partition dataset. Because iterative algorithms apply operations repeatedly to data, they benefit from caching datasets across iterations.
+Results are sent back to the driver application or can be saved to disk.
+
+
 ## How to install Spark
+
+Spark supports the following resource/cluster managers:
+
+Spark Standalone – a simple cluster manager included with Spark
+
+Apache Mesos – a general cluster manager that can also run Hadoop applications
+
+Apache Hadoop YARN – the resource manager in Hadoop 2. The Spark job is submitted to Hadoop(YARN) to run and Spark is only a client here.
+
+Kubernetes – an open source system for automating deployment, scaling, and management of containerized applications
+
+Local mode, where the driver and executors run as threads on your computer instead of a cluster, which is useful for developing your applications from a personal computer.
+
+
 
 # Hive
 # What is Hive
