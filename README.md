@@ -14,6 +14,9 @@ Table of Contents
     * [How to install Hadoop](#How-to-install-Hadoop)
 * [Yarn](#Yarn)
     * [What is Yarn](#What-is-Yarn)   
+* [Maven](#Maven)
+    * [What is Maven](#What-is-Maven)
+    * [How to install Maven](#How-to-install-Maven)
 * [Spark](#Spark)
     * [What is Spark](#What-is-Spark)
     * [Why Spark](#Why-Spark)
@@ -299,6 +302,23 @@ The code(or the Job) from the Client node has to be transferred to the Data node
 
 This code is first submitted to the AM by the Client Node. The AM requests the RM present in the Name Node for resources to be allotted. The RM in turn contacts the NM in each Data Node that is assigned for this job.
 
+# Maven
+## What is Maven
+
+Apache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.
+
+## How to install Maven
+
+Maven 3.3+ require JDK 1.7 or above to execute 
+
+### Step 1 Download
+### Step 2 Change the path of local repository if necessary
+
+  Default: ${user.home}/.m2/repository
+  
+  <localRepository>/path/to/local/repo</localRepository>
+
+
 # Spark
 ## What is Spark
 
@@ -325,7 +345,7 @@ Results are sent back to the driver application or can be saved to disk.
 
 Spark supports the following resource/cluster managers:
 
-Spark Standalone – a simple cluster manager included with Spark
+Spark Standalone – a simple cluster manager included with Spark(If there are multiple machines, then Spark should be deployed on each machine)
 
 Apache Mesos – a general cluster manager that can also run Hadoop applications
 
