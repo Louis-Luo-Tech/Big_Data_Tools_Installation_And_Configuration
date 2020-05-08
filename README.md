@@ -21,7 +21,7 @@ Table of Contents
     * [What is Spark](#What-is-Spark)
     * [Why Spark](#Why-Spark)
     * [How a Spark Application Runs on a Cluster](#How-a-Spark-Application-Runs-on-a-Cluster)
-    * [How to install Spark](#How-to-install-Spark)
+    * [Spark Mode](#Spark Mode)
 * [Hive](#Hive)
     * [What is Hive](#What-is-Hive)
     * [How to install Hive](#How-to-install-Hive)
@@ -341,7 +341,7 @@ A task applies its unit of work to the dataset in its partition and outputs a ne
 Results are sent back to the driver application or can be saved to disk.
 
 
-## How to install Spark
+## Spark Mode
 
 Spark supports the following resource/cluster managers:
 
