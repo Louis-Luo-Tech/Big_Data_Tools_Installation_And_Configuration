@@ -520,7 +520,7 @@ No suitable driver found for jdbc:mysql://localhost/metastore?serverTimezone=PST
 ```
 
 ```
-$ spark-sql --master local --driver-class-path ~/app/mysql-connector-java-8.0.19.jar
+$ spark-sql --master local --jars ~/app/mysql-connector-java-8.0.19.jar --driver-class-path ~/app/mysql-connector-java-8.0.19.jar
 ```
 
 Another method
