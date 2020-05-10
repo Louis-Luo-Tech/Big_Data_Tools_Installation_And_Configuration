@@ -525,7 +525,7 @@ $ spark-sql --master local --jars ~/app/mysql-connector-java-8.0.19.jar --driver
 
 Another method
 
-Copy mysql jar package to $SPARK_HOME/lib, then for any Spark application, the mysql jar package will be loaded
+Copy mysql jar package to $SPARK_HOME/jars, then for any Spark application, the mysql jar package will be loaded
 
 ```
 spark-sql> select * from pk;
