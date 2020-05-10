@@ -25,6 +25,7 @@ Table of Contents
 * [Hive](#Hive)
     * [What is Hive](#What-is-Hive)
     * [How to install Hive](#How-to-install-Hive)
+    * [Get Data from Hive with Spark](#Get-Data-from-Hive-with-Spark)
 * [Hbase](#Hbase)
 * [Flume](#Flume)
 * [Kafka](#Kafka)
@@ -498,6 +499,88 @@ hive>
 ```
 
 Metastore is the central repository of Apache Hive metadata. It stores metadata for Hive tables (like their schema and location) and partitions in a relational database. It provides client access to this information by using metastore service API.
+
+# Get Data from Hive with Spark
+
+```
+$ cp $HIVE_HOME/conf/hive-site.xml $SPARK_HOME/conf/
+$ spark-shell --master local --jars ~/app/mysql-connector-java-8.0.19.jar 
+$ spark.sql("show tables").show
+$ spark.sql("select * from pk").show
+```
+But
+```
+$ spark-sql --master local --jars ~/app/mysql-connector-java-8.0.19.jar
+```
+
+Error will occur
+
+```
+No suitable driver found for jdbc:mysql://localhost/metastore?serverTimezone=PST
+```
+
+```
+$ spark-sql --master local --driver-class-path ~/app/mysql-connector-java-8.0.19.jar
+```
+
+Another method
+
+Copy mysql jar package to $SPARK_HOME/lib, then for any Spark application, the mysql jar package will be loaded
+
+```
+spark-sql> select * from pk;
+```
+
+Start thriftserver
+```
+$ ./sbin/start-thriftserver.sh --master local --jars ~/app/mysql-connector-java-8.0.19.jar 
+$ tail -200f /Users/xiangluo/app/spark-2.4.5-bin-hadoop2.7/logs/spark-xiangluo-org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-1-Xiangs-MacBook-Pro.local.out
+```
+
+
+Error may occur
+```
+org.apache.thrift.transport.TTransportException: Could not create ServerSocket on address 0.0.0.0/0.0.0.0:10000.
+	at org.apache.thrift.transport.TServerSocket.<init>(TServerSocket.java:109)
+	at org.apache.thrift.transport.TServerSocket.<init>(TServerSocket.java:91)
+	at org.apache.thrift.transport.TServerSocket.<init>(TServerSocket.java:87)
+	at org.apache.hive.service.auth.HiveAuthFactory.getServerSocket(HiveAuthFactory.java:275)
+	at org.apache.hive.service.cli.thrift.ThriftBinaryCLIService.run(ThriftBinaryCLIService.java:66)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.BindException: Address already in use (Bind failed)
+	at java.net.PlainSocketImpl.socketBind(Native Method)
+	at java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:387)
+	at java.net.ServerSocket.bind(ServerSocket.java:375)
+	at org.apache.thrift.transport.TServerSocket.<init>(TServerSocket.java:106)
+```
+
+Showing that the 10000 port is being used.
+```
+$ lsof -i:8080, to list the process (pid) running on port 8080.Then kill the process with kill <pid>
+```
+
+
+```
+$ jps
+$ ps -ef|grep 92436
+```
+
+start beeline
+```
+beeline -u jdbc:hive2://localhost:10000
+```
+
+```
+0: jdbc:hive2://localhost:10000> select * from pk;
+```
+
+We can also start another beeline client
+```
+beeline -u jdbc:hive2://localhost:10000
+```
+
+Multiple beeline clients can run on thriftserver
+
 
 # Hbase
 
