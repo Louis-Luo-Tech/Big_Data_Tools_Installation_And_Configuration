@@ -27,6 +27,8 @@ Table of Contents
     * [How to install Hive](#How-to-install-Hive)
     * [Get Data from Hive with Spark](#Get-Data-from-Hive-with-Spark)
 * [Hbase](#Hbase)
+    * [What is Hbase](#What-is-Hbase)
+    * [How to install Hbase](#How-to-install-Hbase)
 * [Flume](#Flume)
 * [Kafka](#Kafka)
     * [What is Kafka](#What-is-Kafka)
@@ -583,6 +585,139 @@ Multiple beeline clients can run on thriftserver
 
 
 # Hbase
+# What is Hbase
+
+Apache HBase™ is the Hadoop database, a distributed, scalable, big data store.Use Apache HBase™ when you need random, realtime read/write access to your Big Data. This project's goal is the hosting of very large tables -- billions of rows X millions of columns -- atop clusters of commodity hardware. Apache HBase is an open-source, distributed, versioned, non-relational database.
+
+# How to install Hbase
+
+## Step 1 Download
+
+1. You have Java and the latest JDK on your OS X system.
+
+2. You have ssh on your OS X system.
+
+3. You have Hadoop running on your OS X system.
+
+4. Download Hbase 2.2.4
+
+## Step 2 Configurate Hbase
+
+hbase-env.sh
+
+export JAVA_HOME
+
+export HBASE_MANAGES_ZK=false
+
+
+hbase-site.xml
+
+<configuration>
+   <property>
+      <name>hbase.rootdir</name>
+      <value>hdfs://localhost:9000/hbase</value>
+   </property>
+      <property>
+     <name>hbase.cluster.distributed</name>
+     <value>true</value>
+   </property>
+      <property>
+      <name>hbase.zookeeper.quorum</name>
+      <value>localhost:2181</value>
+   </property>
+</configuration>
+
+
+regionservers
+
+localhost
+
+
+## Step 3 Start Hbase
+
+First you need to start Zookeeper
+```
+$ ./zkServer.sh start    // jps QuorumPeerMain
+```
+
+```
+$ start-hbase.sh         // jps HMaster, HRegionServer 
+```
+
+```
+hbase(main):001:0> version
+2.2.4, r67779d1a325a4f78a468af3339e73bf075888bac, 2020年 03月 11日 星期三 12:57:39 CST
+Took 0.0003 seconds                                                                                     
+hbase(main):002:0> status
+1 active master, 0 backup masters, 1 servers, 0 dead, 3.0000 average load
+Took 0.4101 seconds     
+```
+
+Hbase Web UI: http://localhost:16010/
+
+## Step 4 Test in Hbase
+
+```
+xiangluo@Xiangs-MacBook-Pro bin % hbase shell
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/Users/xiangluo/app/hadoop-2.7.7/share/hadoop/common/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/Users/xiangluo/app/hbase-2.2.4/lib/client-facing-thirdparty/slf4j-log4j12-1.7.25.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+2020-05-12 09:02:34,516 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+HBase Shell
+Use "help" to get list of supported commands.
+Use "exit" to quit this interactive shell.
+For Reference, please visit: http://hbase.apache.org/2.0/book.html#shell
+Version 2.2.4, r67779d1a325a4f78a468af3339e73bf075888bac, 2020年 03月 11日 星期三 12:57:39 CST
+Took 0.0024 seconds                                                                                     
+hbase(main):001:0> version
+2.2.4, r67779d1a325a4f78a468af3339e73bf075888bac, 2020年 03月 11日 星期三 12:57:39 CST
+Took 0.0003 seconds                                                                                     
+hbase(main):002:0> status
+1 active master, 0 backup masters, 1 servers, 0 dead, 3.0000 average load
+Took 0.4101 seconds                                                                                     
+hbase(main):003:0> create 'info','id','name'
+Created table info
+Took 0.8639 seconds                                                                                     
+=> Hbase::Table - info
+hbase(main):004:0> list
+TABLE                                                                                                   
+info                                                                                                    
+member                                                                                                  
+2 row(s)
+Took 0.0205 seconds                                                                                     
+=> ["info", "member"]
+hbase(main):005:0> desc
+desc                 describe             describe_namespace   
+hbase(main):005:0> describe
+describe             describe_namespace   
+hbase(main):005:0> describe info
+NameError: undefined local variable or method `info' for main:Object
+
+hbase(main):006:0> describe 'info'
+Table info is ENABLED                                                                                   
+info                                                                                                    
+COLUMN FAMILIES DESCRIPTION                                                                             
+{NAME => 'id', VERSIONS => '1', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_
+DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => 'false', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER
+', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false',
+ IN_MEMORY => 'false', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION
+ => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'}                                                 
+
+{NAME => 'name', VERSIONS => '1', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEE
+P_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => 'false', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREV
+ER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false
+', IN_MEMORY => 'false', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSI
+ON => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'}                                               
+
+2 row(s)
+
+QUOTAS                                                                                                  
+0 row(s)
+Took 0.1804 seconds                                                                                     
+hbase(main):007:0> 
+```
 
 # Flume
 
