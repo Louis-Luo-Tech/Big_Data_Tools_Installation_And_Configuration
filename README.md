@@ -21,7 +21,7 @@ Table of Contents
     * [What is Spark](#What-is-Spark)
     * [Why Spark](#Why-Spark)
     * [How a Spark Application Runs on a Cluster](#How-a-Spark-Application-Runs-on-a-Cluster)
-    * [Spark Mode](#Spark Mode)
+    * [Spark Mode](#Spark-Mode)
 * [Hive](#Hive)
     * [What is Hive](#What-is-Hive)
     * [How to install Hive](#How-to-install-Hive)
