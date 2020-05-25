@@ -30,11 +30,15 @@ Table of Contents
     * [What is Hbase](#What-is-Hbase)
     * [How to install Hbase](#How-to-install-Hbase)
 * [Flume](#Flume)
+    * [What is Flume](#What-is-Flume)
+    * [How to install Flume](#How-to-install-Flume)
 * [Kafka](#Kafka)
     * [What is Kafka](#What-is-Kafka)
+    * [How to use Kafka](#How-to-use-Kafka)
 * [Sqoop](#Sqoop)
     * [What is Sqoop](#What-is-Sqoop)
 * [Zookeeper](#Zookeeper)
+    * [What is Zookeeper](#What-is-Zookeeper)
 
 
 # Hadoop
@@ -720,6 +724,32 @@ hbase(main):007:0>
 ```
 
 # Flume
+# What is Flume
+
+Flume is a distributed, reliable, and available service for efficiently collecting, aggregating, and moving large amounts of log data. It has a simple and flexible architecture based on streaming data flows. It is robust and fault tolerant with tunable reliability mechanisms and many failover and recovery mechanisms. It uses a simple extensible data model that allows for online analytic application.
+
+# How to install Flume
+1. **Download from [here](https://flume.apache.org/download.html)**
+2. **Export to PATH**
+3. **Configure Flume**
+   <pre>
+   $ cp flume-env.sh.template flume-env.sh
+   </pre>
+   
+   Export JAVA_HOME in this configuration file
+ 
+   Check Flume Version
+   <pre>
+   $ flume-ng version
+   </pre>
+   <pre>
+   xiangluo@Xiangs-MacBook-Pro ~ % flume-ng version      
+   Flume 1.9.0
+   Source code repository: https://git-wip-us.apache.org/repos/asf/flume.git
+   Revision: d4fcab4f501d41597bc616921329a4339f73585e
+   Compiled by fszabo on Mon Dec 17 20:45:25 CET 2018
+   From source with checksum 35db629a3bda49d23e9b3690c80737f9
+   </pre>
 
 # Flink
 
@@ -732,6 +762,133 @@ Kafka is a distributed streaming platform that is used publish and subscribe 
 
 publish-subscribe messaging systems
 
+
+# How to use Kafka
+
+1. **Download Zookeeper
+2. **Export to PATH**
+     Add to PATH and change the dataDir
+     
+     Start Zookeeper Server
+     <pre>
+     $ zkServer.sh start
+     </pre>
+     
+     Login Zookeeper Server
+     <pre>
+     $ zkCli.sh
+     </pre>
+     
+3. **Configure Kafka**
+     Download Kafka(Note the version of Scala, here we use 0.9.0.0)
+     
+     Export to PATH
+     
+     Change the path of log.dirs
+     
+     Single node single broker setup
+     
+     * Start Kafka Server
+     <pre>
+     $ kafka-server-start.sh $KAFKA_HOME/config/server.properties 
+     </pre>
+     
+     * Create a topic
+     <pre>
+     $ kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic kafkatest
+     </pre>
+     
+     * Check all the topics
+     <pre>
+     $ kafka-topics.sh --list --zookeeper localhost:2181
+     </pre>
+     
+     * Send some messages
+     <pre>
+     $ kafka-console-producer.sh --broker-list localhost:9092 --topic kafkatest
+     </pre>
+     
+     * Start a consumer
+     <pre>
+     $ kafka-console-consumer.sh --zookeeper localhost:2181 --topic kafkatest --from-beginning
+     </pre>
+     
+     * Check the information of the topic
+     <pre>
+     $ kafka-topics.sh --describe --zookeeper localhost:2181
+     </pre>
+     
+      <pre>
+     $ kafka-topics.sh --describe --zookeeper localhost:2181 --topic kafkatest
+     </pre>
+     
+     Single node multi-broker cluster setup
+     
+     Create config file
+     
+     <pre>
+     $ cp config/server.properties config/server-1.properties
+     $ cp config/server.properties config/server-2.properties
+     $ cp config/server.properties config/server-3.properties
+     </pre>
+     
+     Edit the config files with the following properties
+     
+     <pre>
+     config/server-1.properties:
+     broker.id=1
+     listeners=PLAINTEXT://:9093
+     log.dirs=/tmp/kafka-logs-1
+ 
+     config/server-2.properties:
+     broker.id=2
+     listeners=PLAINTEXT://:9094
+     log.dirs=/tmp/kafka-logs-2
+
+     config/server-3.properties:
+     broker.id=3
+     listeners=PLAINTEXT://:9095
+     log.dirs=/tmp/kafka-logs-3
+     </pre>
+     
+     Start Kafka Server
+     <pre>
+     $ kafka-server-start.sh -daemon $KAFKA_HOME/config/server-1.properties 
+     $ kafka-server-start.sh -daemon $KAFKA_HOME/config/server-2.properties
+     $ kafka-server-start.sh -daemon $KAFKA_HOME/config/server-3.properties
+     </pre>
+     
+     Create topic
+     <pre>
+     $ kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 1 --topic my-replicated-topic
+     </pre>
+     
+     Send some messages
+     <pre>
+     $ kafka-console-producer.sh --broker-list localhost:9093,localhost:9094,localhost:9095 --topic my-replicated-topic
+     </pre>
+     
+     Start a consumer
+     <pre>
+     $ kafka-console-consumer.sh --zookeeper localhost:2181 --topic my-replicated-topic --from-beginning
+     </pre>
+     
+
+Create topic
+<pre>
+$ kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 1 --topic my-replicated-topic
+</pre>
+
+Send some messages
+<pre>
+$ kafka-console-producer.sh --broker-list localhost:9093,localhost:9094,localhost:9095 --topic my-replicated-topic
+</pre>
+
+Start a consumer
+<pre>
+$ kafka-console-consumer.sh --zookeeper localhost:2181 --topic my-replicated-topic --from-beginning
+</pre>
+
 # Sqoop
 # What is Sqoop
 
@@ -739,3 +896,4 @@ Sqoop is a tool designed to transfer data between Hadoop and relational database
 
 
 # Zookeeper
+# What is Zookeeper
